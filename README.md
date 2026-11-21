@@ -1,3 +1,5 @@
+![EDGE GLASS Social Intelligence Agent](assets/edge-glass-project-banner.png)
+
 <div align="center">
 
 # EDGE GLASS — Social Intelligence Agent
