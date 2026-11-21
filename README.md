@@ -77,13 +77,32 @@ The screenshots below show the working spreadsheet interface and representative 
 
 | Screenshot | What it demonstrates |
 |---|---|
-| Trend Research | Collected YouTube sources alongside AI relevance, audience, opportunity, platform, priority and reasoning fields |
-| Intelligence History | Historical records and change-status labels such as BASELINE, NO CHANGE and CONTINUING |
-| Daily Reports | Generated executive summary, opportunities, audience insights, platform strategy and action plan |
-| Instagram Content Studio | The custom Google Sheets sidebar used to request topic-based Reel ideas |
-| Instagram Content Ideas | Generated Reel concepts, hooks, story summaries, scene directions and captions |
+### 1. Trend Research
+Collected YouTube sources with AI relevance scores, target audiences, content opportunities, platform recommendations, priorities and reasoning.
 
-Image files are stored in `screenshots/`. See the [screenshots folder](screenshots/).
+![Trend Research](screenshots/01-trend-research.png)
+
+### 2. Intelligence History
+Historical research records with change-status labels, including BASELINE, NO CHANGE and CONTINUING.
+
+![Intelligence History](screenshots/02-intelligence-history.png)
+
+### 3. Daily Intelligence Report
+Generated executive summary, top opportunities, audience insights, platform strategy and priority action plan.
+
+![Daily Report](screenshots/03-daily-report.png)
+
+### 4. Instagram Content Studio
+The custom Google Sheets sidebar used to submit a topic and request Instagram Reel concepts.
+
+![Instagram Content Studio](screenshots/04-content-studio.png)
+
+### 5. Instagram Content Ideas
+Generated Reel concepts with hooks, story summaries, suggested scenes and captions.
+
+![Instagram Content Ideas](screenshots/05-instagram-ideas.png)
+
+All five original screenshots are included in the [screenshots folder](screenshots/).
 
 ## Repository layout
 
