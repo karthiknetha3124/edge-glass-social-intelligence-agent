@@ -71,6 +71,20 @@ See [the architecture notes](docs/ARCHITECTURE.md) for the component responsibil
 | Storage and interface | Google Sheets | Research records, history, reports and ideas |
 | Scheduling and email | Apps Script triggers and Mail service | Daily execution and report delivery |
 
+## Screenshots
+
+The screenshots below show the working spreadsheet interface and representative outputs. They are intended as genuine product evidence, not mock-ups.
+
+| Screenshot | What it demonstrates |
+|---|---|
+| Trend Research | Collected YouTube sources alongside AI relevance, audience, opportunity, platform, priority and reasoning fields |
+| Intelligence History | Historical records and change-status labels such as BASELINE, NO CHANGE and CONTINUING |
+| Daily Reports | Generated executive summary, opportunities, audience insights, platform strategy and action plan |
+| Instagram Content Studio | The custom Google Sheets sidebar used to request topic-based Reel ideas |
+| Instagram Content Ideas | Generated Reel concepts, hooks, story summaries, scene directions and captions |
+
+Image files are stored in `screenshots/`. See the [screenshots folder](screenshots/).
+
 ## Repository layout
 
 - `src/EGSocial.gs` — Apps Script backend.
