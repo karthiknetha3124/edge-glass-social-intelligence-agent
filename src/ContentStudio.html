@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; color: #202124; }
+    h2 { margin-top: 0; font-size: 20px; }
+    p { color: #666; font-size: 13px; line-height: 1.5; }
+    input { box-sizing: border-box; width: 100%; padding: 12px; margin: 12px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+    button { width: 100%; padding: 12px; background: #202124; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    #status { margin-top: 15px; font-size: 13px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <h2>EDGE GLASS Content Studio</h2>
+  <p>Enter a topic to research and generate Instagram Reel ideas for EDGE GLASS.</p>
+  <input id="topic" type="text" placeholder="Example: Hospitals">
+  <button id="generate" onclick="generateContent()">Research &amp; Generate</button>
+  <div id="status"></div>
+  <script>
+    function generateContent() {
+      const topic = document.getElementById("topic").value.trim();
+      const button = document.getElementById("generate");
+      const status = document.getElementById("status");
+      if (!topic) {
+        status.textContent = "Please enter a topic first.";
+        return;
+      }
+      button.disabled = true;
+      status.textContent = "Researching your topic. Please wait...";
+      google.script.run
+        .withSuccessHandler(function(message) {
+          status.textContent = message;
+          button.disabled = false;
+        })
+        .withFailureHandler(function(error) {
+          status.textContent = "Error: " + error.message;
+          button.disabled = false;
+        })
+        .generateInstagramContent(topic);
+    }
+  </script>
+</body>
+</html>
