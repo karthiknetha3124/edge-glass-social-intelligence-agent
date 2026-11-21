@@ -1,139 +1,206 @@
-# EDGE GLASS Social Intelligence Agent
+<div align="center">
 
-An AI-assisted research and content-planning system built with **Google Apps Script (JavaScript, V8 runtime)**, Google Sheets, the YouTube Data API v3 and Google Gemini.
+# EDGE GLASS — Social Intelligence Agent
 
-It supports two workflows: a scheduled YouTube-based social intelligence pipeline and an on-demand Instagram Reel ideation studio. The workbook snapshot documented here contains real outputs from the working system.
+**AI-assisted social media research, trend analysis and content ideation**
 
-## At a glance
+[![JavaScript](https://img.shields.io/badge/Backend-JavaScript%20%7C%20Apps%20Script-f1e05a?logo=javascript&logoColor=black)](https://developers.google.com/apps-script)
+[![Google Sheets](https://img.shields.io/badge/Data-Google%20Sheets-34a853?logo=googlesheets&logoColor=white)](https://sheets.google.com)
+[![YouTube API](https://img.shields.io/badge/Research-YouTube%20Data%20API-ff0033?logo=youtube&logoColor=white)](https://developers.google.com/youtube/v3)
+[![Gemini](https://img.shields.io/badge/AI-Google%20Gemini-4285f4)](https://ai.google.dev/)
+[![Status](https://img.shields.io/badge/Project-AI--assisted%20prototype-16865a)](#current-scope)
 
-- **Research records:** 92 populated rows in `Trend Research`.
-- **Historical analysis:** 92 populated rows in `Intelligence History`.
-- **Daily reports:** 11 populated reports in `Daily Reports`.
-- **Content planning:** 10 populated rows in `Content Ideas`.
-- **Instagram ideation:** 15 populated Reel concepts in `Instagram Content Ideas`.
-- **Not yet populated:** `Competitor Research` and `Audience Insights` are present as empty tabs in the supplied workbook snapshot.
+*An AI-assisted system that turns public YouTube signals into structured market intelligence and practical content ideas for EDGE GLASS.*
 
-These counts describe the exported workbook snapshot, not live or continuously updated totals. See [the data dictionary](docs/DATA_DICTIONARY.md) for the sheet-level detail.
+</div>
 
-## Workflows
+---
 
-### 1. Daily social media intelligence
+## Project overview
+
+The EDGE GLASS Social Intelligence Agent is built with **JavaScript on Google Apps Script (V8 runtime)**, Google Sheets, the YouTube Data API v3 and Google Gemini.
+
+It supports two distinct workflows:
+
+1. **Daily intelligence pipeline** — searches configured YouTube topics, collects public video data, asks Gemini to analyse records, stores research history, generates a daily report and emails it.
+2. **Instagram Content Studio** — accepts a user-entered topic through a Google Sheets sidebar, uses YouTube results as research context, and generates structured Instagram Reel concepts.
+
+The system runs on Google's managed Apps Script infrastructure. Google Sheets is the data store and working interface; a separately managed server is not required.
+
+## Verified workbook snapshot
+
+The following counts were checked against the exported workbook supplied during project documentation. They describe that snapshot, not live totals.
+
+| Workbook tab | Populated records | What it contains |
+|---|---:|---|
+| Trend Research | 92 | YouTube research records and AI analysis |
+| Intelligence History | 92 | Historical analysis and change-status labels |
+| Daily Reports | 11 | Generated daily intelligence reports |
+| Content Ideas | 10 | Broader social content plans |
+| Instagram Content Ideas | 15 | Reel concepts and creative direction |
+| Competitor Research | 0 | Empty in the reviewed snapshot |
+| Audience Insights | 0 | Empty in the reviewed snapshot |
+
+See the [workbook data dictionary](docs/DATA_DICTIONARY.md) for observed columns and interpretation notes.
+
+## Key capabilities
+
+- Topic-based discovery using YouTube Data API v3.
+- Public video metadata and available engagement-stat collection.
+- URL-based duplicate avoidance.
+- Batch analysis with Gemini.
+- Structured recommendations for audience, content opportunity, platform, format and priority.
+- Historical status tracking, including BASELINE, NO CHANGE and CONTINUING.
+- Daily report generation and email delivery.
+- On-demand Instagram Reel concept generation through a custom Sheets sidebar.
+
+## How the system works
+
+### Daily intelligence workflow
 
 1. A time-driven Apps Script trigger starts the daily controller.
-2. The script searches YouTube for configured smart-glass and architecture topics.
-3. It collects public video metadata and available engagement statistics, while avoiding URLs already recorded.
-4. Gemini analyses records in batches and returns structured findings, including audience, content opportunity, recommended platform/format, priority and reasoning.
-5. Research and historical status are written to Google Sheets.
-6. A daily report is generated and emailed to configured recipients.
+2. Apps Script searches YouTube for configured smart-glass and architecture themes.
+3. Public video metadata and available statistics are collected; previously stored URLs are used to avoid duplicate processing.
+4. Gemini analyses records in batches and returns structured findings.
+5. Research and historical analysis are stored in Google Sheets.
+6. A daily report is assembled and emailed to configured recipients.
 
-The tracked research themes include PDLC/smart-glass technology, architecture and interiors, healthcare privacy, hospitality, corporate offices, construction/real estate, FAQs, and comparisons with conventional privacy solutions.
+### Instagram Content Studio workflow
 
-### 2. Instagram Content Studio
+1. A user opens the custom sidebar from Google Sheets.
+2. The user enters a topic and starts research.
+3. The Apps Script backend searches YouTube and collects supporting metadata.
+4. Gemini generates structured Reel concepts.
+5. The concepts are saved to the Instagram Content Ideas tab.
 
-The user opens a custom sidebar in Google Sheets, enters a topic, and requests content concepts. The backend uses YouTube search results as supporting research, then asks Gemini to create structured Reel ideas and saves them to `Instagram Content Ideas`.
-
-The saved concepts can include an angle, opening hook, story summary, scene-by-scene direction, caption, hashtags, CTA, cover text and research references.
-
-**Scope boundary:** this is Instagram-focused ideation informed by YouTube research. It does not directly monitor Instagram Reels, publish or schedule Instagram posts, or render finished videos.
+A concept can include a content angle, opening hook, story summary, scene-by-scene direction, caption, hashtags, call to action and cover text.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-    A[Time-driven Apps Script trigger] --> B[Daily controller]
-    B --> C[YouTube Data API v3]
-    C --> D[Video metadata and statistics]
-    D --> E[Gemini analysis in batches]
-    E --> F[Google Sheets research and history]
-    F --> G[Daily report generation]
-    G --> H[Email delivery]
+    T[Time-driven trigger] --> O[Apps Script daily controller]
+    O --> Y[YouTube Data API v3]
+    Y --> V[Video metadata and statistics]
+    V --> G[Gemini batch analysis]
+    G --> S[(Google Sheets research and history)]
+    S --> R[Daily report generation]
+    R --> E[Email delivery]
 
-    I[Google Sheets custom menu and sidebar] --> J[Content Studio UI]
-    J --> K[Apps Script backend via google.script.run]
-    K --> C
-    K --> L[Gemini content ideation]
-    L --> M[Instagram Content Ideas sheet]
+    U[Google Sheets custom menu/sidebar] --> C[Content Studio backend]
+    C --> Y2[YouTube topic research]
+    Y2 --> G2[Gemini content ideation]
+    G2 --> I[(Instagram Content Ideas)]
 ```
 
-Google Apps Script runs on Google's managed infrastructure. Google Sheets is the working data store and interface; a separately managed server is not required.
+For component responsibilities and data flow, read [Architecture](docs/ARCHITECTURE.md).
 
-See [the architecture notes](docs/ARCHITECTURE.md) for the component responsibilities and data flow.
+## System in action
 
-## Technology
+These are screenshots from the working spreadsheet and content studio.
 
-| Layer | Technology | Role |
-|---|---|---|
-| Backend and automation | JavaScript on Google Apps Script V8 | Scheduled jobs, API calls, processing and spreadsheet operations |
-| Sidebar interface | HTML, CSS and client-side JavaScript | Topic input and content-studio interaction |
-| UI-to-backend bridge | `google.script.run` | Calls server-side Apps Script functions from the sidebar |
-| Research source | YouTube Data API v3 | Topic-based video search and public metadata |
-| AI | Google Gemini API | Research analysis and structured content ideation |
-| Storage and interface | Google Sheets | Research records, history, reports and ideas |
-| Scheduling and email | Apps Script triggers and Mail service | Daily execution and report delivery |
-
-## Screenshots
-
-The screenshots below show the working spreadsheet interface and representative outputs. They are intended as genuine product evidence, not mock-ups.
-
-| Screenshot | What it demonstrates |
-|---|---|
 ### 1. Trend Research
+
 Collected YouTube sources with AI relevance scores, target audiences, content opportunities, platform recommendations, priorities and reasoning.
 
 ![Trend Research](screenshots/01-trend-research.png)
 
 ### 2. Intelligence History
+
 Historical research records with change-status labels, including BASELINE, NO CHANGE and CONTINUING.
 
 ![Intelligence History](screenshots/02-intelligence-history.png)
 
 ### 3. Daily Intelligence Report
+
 Generated executive summary, top opportunities, audience insights, platform strategy and priority action plan.
 
 ![Daily Report](screenshots/03-daily-report.png)
 
 ### 4. Instagram Content Studio
+
 The custom Google Sheets sidebar used to submit a topic and request Instagram Reel concepts.
 
 ![Instagram Content Studio](screenshots/04-content-studio.png)
 
 ### 5. Instagram Content Ideas
+
 Generated Reel concepts with hooks, story summaries, suggested scenes and captions.
 
 ![Instagram Content Ideas](screenshots/05-instagram-ideas.png)
 
-All five original screenshots are included in the [screenshots folder](screenshots/).
+## Technology stack
 
-## Repository layout
+| Layer | Technology | Responsibility |
+|---|---|---|
+| Backend | JavaScript, Apps Script V8 | Orchestration, API calls and spreadsheet operations |
+| User interface | HTML, CSS, client-side JavaScript | Custom sidebar |
+| UI/backend bridge | `google.script.run` | Calls Apps Script functions from the sidebar |
+| Research source | YouTube Data API v3 | Topic search and public video data |
+| AI | Google Gemini API | Research analysis and content ideation |
+| Storage | Google Sheets | Research, history, reports and content ideas |
+| Scheduling | Apps Script time-driven triggers | Automated daily execution |
+| Email | Apps Script Mail service | Daily report delivery |
 
-- `src/EGSocial.gs` — Apps Script backend.
-- `src/ContentStudio.html` — sidebar interface.
-- `docs/SETUP.md` — deployment and configuration notes.
-- `docs/ARCHITECTURE.md` — architecture and workflow explanation.
-- `docs/DATA_DICTIONARY.md` — workbook tabs, fields and snapshot counts.
+## Repository structure
 
-## Configuration and security
+```text
+.
+├── src/
+│   ├── EGSocial.gs
+│   └── ContentStudio.html
+├── docs/
+│   ├── SETUP.md
+│   ├── ARCHITECTURE.md
+│   ├── DATA_DICTIONARY.md
+│   └── INTERVIEW_GUIDE.md
+├── screenshots/
+│   ├── 01-trend-research.png
+│   ├── 02-intelligence-history.png
+│   ├── 03-daily-report.png
+│   ├── 04-content-studio.png
+│   └── 05-instagram-ideas.png
+└── README.md
+```
 
-Configure secrets through **Apps Script Project Settings → Script Properties**, not in source code. The implementation expects:
+## Setup and configuration
+
+Start with [Setup and configuration](docs/SETUP.md).
+
+Configure environment-specific values in **Apps Script Project Settings → Script Properties**. The implementation expects:
 
 - `YOUTUBE_API_KEY`
 - `GEMINI_API_KEY`
 - `SPREADSHEET_URL`
 
-Do not commit API keys, spreadsheet URLs/IDs, private email addresses, customer records or other confidential business information. The repository source is intended to use Script Properties for environment-specific configuration.
+Never commit API keys, spreadsheet URLs or IDs, private email addresses, customer records or confidential company information.
 
-## Limitations and current scope
+## Current scope and limitations
 
-- YouTube is the research source; Instagram is the target platform for content ideas, not a directly monitored source.
-- AI-generated insights and marketing claims require human review before publication. Validate numerical or technical claims against reliable product and project evidence.
-- API availability, quota limits and model responses can affect results.
-- The workbook contains empty `Competitor Research` and `Audience Insights` tabs. Their presence does not mean those modules are implemented or populated.
-- The counts above are from one exported workbook snapshot and will change as the system runs.
+- YouTube is the discovery source. Instagram is the intended destination for content ideas; the system does **not** directly monitor Instagram Reels.
+- The Content Studio generates text-based concepts and production direction. It does **not** render finished videos, publish posts or schedule Instagram uploads.
+- The dedicated Competitor Research and Audience Insights tabs were empty in the reviewed workbook snapshot. They are not represented as completed automated modules.
+- AI-generated claims and recommendations need human review before business use.
+- API quotas, service availability, permissions and model responses are operational dependencies.
+- Workbook counts are a dated evidence snapshot and will change as the system runs.
 
-## AI-assisted development
+## AI-assisted development and project ownership
 
-AI tools assisted with code generation and development. The project owner is transparent about that assistance and focuses on understanding the architecture, integrations, data flow, configuration, operational behaviour, testing and limitations. The project is presented as an AI-assisted build, not as a claim that every line was independently authored.
+AI tools assisted with code generation and development. The project is presented transparently as an **AI-assisted build**. The project owner's focus is understanding and explaining the architecture, integrations, data flow, configuration, operational behaviour, testing and limitations rather than claiming every line was independently authored.
 
-## Evidence and documentation
+## Documentation
 
-The workbook snapshot is the evidence for the record counts and populated tabs described above. It is not a substitute for a live production audit. For setup and operation, start with [Setup](docs/SETUP.md), then read the [Architecture](docs/ARCHITECTURE.md) and [Data Dictionary](docs/DATA_DICTIONARY.md).
+- [Setup guide](docs/SETUP.md)
+- [Architecture and data flow](docs/ARCHITECTURE.md)
+- [Workbook data dictionary](docs/DATA_DICTIONARY.md)
+- [Interview preparation guide](docs/INTERVIEW_GUIDE.md)
+
+---
+
+<div align="center">
+
+**EDGE GLASS · Social Intelligence Agent**
+
+*Research signals → structured insights → actionable content ideas*
+
+</div>
